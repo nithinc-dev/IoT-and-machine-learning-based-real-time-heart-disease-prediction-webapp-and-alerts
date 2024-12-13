@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{%block css%} 
+<link rel="stylesheet" href="{% static 'css/design.css' %}" >
+{%endblock%}
+
+{% block content %}
+    <h1>Location Tracker</h1>
+
+    <form id="role-form">
+        {% csrf_token %}
+        <label for="role">Select your Role:</label>
+        <select id="role" name="role">
+            <option value="">--Select--</option>
+            <option value="patient">Patient</option>
+            <option value="caretaker">Caretaker</option>
+        </select>
+        <br>
+
+        <label for="patient-key">Patient's Key:</label>
+        <input type="text" id="patient-key" name="patient-key" required>
+        <br>
+
+        <button type="button" id="submit-role">Submit</button>
+    </form>
+
+    <div id="patient-view" style="display: none;">
+        <p id="status">Fetching location...</p>
+        <p>Latitude: <span id="latitude">-</span></p>
+        <p>Longitude: <span id="longitude">-</span></p>
+        <p>Altitude: <span id="altitude">-</span></p>
+    </div>
+
+    <div id="caretaker-view" style="display: none;">
+        <h1>Coordinates:</h1>
+        <p id="coordinates">-</p>
+    </div>
+
+    <script>
+        const apiEndpoint = 'http://127.0.0.1:8000/api/location/';
+        const roleForm = document.getElementById('role-form');
+        const roleSelect = document.getElementById('role');
+        const patientKeyInput = document.getElementById('patient-key');
+        const patientView = document.getElementById('patient-view');
+        const caretakerView = document.getElementById('caretaker-view');
+        const statusElement = document.getElementById('status');
+        const latitudeElement = document.getElementById('latitude');
+        const longitudeElement = document.getElementById('longitude');
+        const altitudeElement = document.getElementById('altitude');
+        const coordinatesElement = document.getElementById('coordinates');
+
+        document.getElementById('submit-role').addEventListener('click', () => {
+            const role = roleSelect.value;
+            const patientKey = patientKeyInput.value.trim();
+
+            if (!role || !patientKey) {
+                alert('Please select a role and enter the patient\'s key.');
+                return;
+            }
+
+            if (role === 'patient') {
+                patientView.style.display = 'block';
+                caretakerView.style.display = 'none';
+
+                function updateLocation(position) {
+                    const { latitude, longitude, altitude } = position.coords;
+
+                    latitudeElement.textContent = latitude.toFixed(8);
+                    longitudeElement.textContent = longitude.toFixed(8);
+                    altitudeElement.textContent = altitude ? altitude.toFixed(2) : 'N/A';
+
+                    fetch(apiEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        },
+                        body: JSON.stringify({
+                            patient_key: patientKey,
+                            latitude: latitude,
+                            longitude: longitude,
+                            altitude: altitude,
+                        }),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to send location.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => console.log('Location sent successfully:', data))
+                    .catch(error => console.error('Error sending location:', error));
+                }
+
+                function errorHandler(error) {
+                    statusElement.textContent = `Error: ${error.message}`;
+                }
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition(updateLocation, errorHandler, {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 10000,
+                    });
+
+                    setInterval(() => {
+                        navigator.geolocation.getCurrentPosition(updateLocation, errorHandler);
+                    }, 10000);
+                } else {
+                    statusElement.textContent = 'Geolocation is not supported by your browser.';
+                }
+
+            } else if (role === 'caretaker') {
+                patientView.style.display = 'none';
+                caretakerView.style.display = 'block';
+
+                fetch(`${apiEndpoint}?patient_key=${patientKey}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch location.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.latitude && data.longitude) {
+                            coordinatesElement.textContent = `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
+                        } else {
+                            coordinatesElement.textContent = 'No location data found.';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching location:', error);
+                        coordinatesElement.textContent = 'Error fetching location.';
+                    });
+            }
+        });
+    </script>
+{% endblock %}
+
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+    <h1>Location Tracker</h1>
+
+    <form id="role-form">
+        <label for="role">Select Role:</label>
+        <select id="role" name="role">
+            <option value="">--Select--</option>
+            <option value="patient">Patient</option>
+            <option value="caretaker">Caretaker</option>
+        </select>
+        <br>
+
+        <label for="patient-key">Patient's Key:</label>
+        <input type="text" id="patient-key" name="patient-key" required>
+        <br>
+
+        <button type="button" id="submit-role">Submit</button>
+    </form>
+
+    <div id="patient-view" style="display: none;">
+        <p id="status">Fetching location...</p>
+        <p>Latitude: <span id="latitude">-</span></p>
+        <p>Longitude: <span id="longitude">-</span></p>
+        <p>Altitude: <span id="altitude">-</span></p>
+    </div>
+
+    <div id="caretaker-view" style="display: none;">
+        <h1>Coordinates:</h1>
+        <p id="coordinates">-</p>
+    </div>
+
+    <script>
+        const apiEndpoint = 'http://127.0.0.1:8000/api/location/';
+        const roleForm = document.getElementById('role-form');
+        const roleSelect = document.getElementById('role');
+        const patientKeyInput = document.getElementById('patient-key');
+        const patientView = document.getElementById('patient-view');
+        const caretakerView = document.getElementById('caretaker-view');
+        const statusElement = document.getElementById('status');
+        const latitudeElement = document.getElementById('latitude');
+        const longitudeElement = document.getElementById('longitude');
+        const altitudeElement = document.getElementById('altitude');
+        const coordinatesElement = document.getElementById('coordinates');
+
+        document.getElementById('submit-role').addEventListener('click', () => {
+            const role = roleSelect.value;
+            const patientKey = patientKeyInput.value.trim();
+
+            if (!role || !patientKey) {
+                alert('Please select a role and enter the patient\'s key.');
+                return;
+            }
+
+            if (role === 'patient') {
+                patientView.style.display = 'block';
+                caretakerView.style.display = 'none';
+
+                function updateLocation(position) {
+                    const { latitude, longitude, altitude } = position.coords;
+
+                    latitudeElement.textContent = latitude.toFixed(8);
+                    longitudeElement.textContent = longitude.toFixed(8);
+                    altitudeElement.textContent = altitude ? altitude.toFixed(2) : 'N/A';
+
+                    fetch(apiEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            patient_key: patientKey,
+                            latitude: latitude,
+                            longitude: longitude,
+                            altitude: altitude,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log('Location sent successfully:', data))
+                    .catch(error => console.error('Error sending location:', error));
+                }
+
+                function errorHandler(error) {
+                    statusElement.textContent = `Error: ${error.message}`;
+                }
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition(updateLocation, errorHandler, {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 10000,
+                    });
+
+                    setInterval(() => {
+                        navigator.geolocation.getCurrentPosition(updateLocation, errorHandler);
+                    }, 10000);
+                } else {
+                    statusElement.textContent = 'Geolocation is not supported by your browser.';
+                }
+
+            } else if (role === 'caretaker') {
+                patientView.style.display = 'none';
+                caretakerView.style.display = 'block';
+
+                fetch(`${apiEndpoint}?patient_key=${patientKey}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.latitude && data.longitude) {
+                            coordinatesElement.textContent = `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
+                        } else {
+                            coordinatesElement.textContent = 'No location data found.';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching location:', error);
+                        coordinatesElement.textContent = 'Error fetching location.';
+                    });
+            }
+        });
+    </script>
+{% endblock %} {% endcomment %}

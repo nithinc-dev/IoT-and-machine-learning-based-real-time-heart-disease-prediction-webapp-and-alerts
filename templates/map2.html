@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block css%} 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/design.css' %}" >
+{%endblock%}
+{% block content %}
+<div class="map-grid">
+    <div class="map-1">
+        <h1 style="text-align: center;">Patient Location Tracker</h1>
+        <form id="role-form">
+            {% csrf_token %}
+            <label for="role">Select Role:</label>
+            <select id="role" name="role" required>
+                <option value="">--Select--</option>
+                <option value="patient">Patient</option>
+                <option value="caretaker">Caretaker</option>
+            </select>
+            <br>
+            <label for="patient-key">Patient's Key:</label>
+            <input type="text" id="patient-key" name="patient-key" required>
+            <br>
+            <button type="button" id="submit-role">Submit</button>
+        </form>
+    </div>
+    <div class="map-2">
+        <div id="map"></div>
+        <div id="coordinates" style="color: #4CAF50;">Waiting for location...</div>
+    </div>
+</div>
+
+<script>
+    const map = L.map('map').setView([0, 0], 2);
+    let marker;
+    
+    L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+        maxZoom: 20,
+    }).addTo(map);
+
+    const customIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+        iconSize: [50, 50],
+        iconAnchor: [25, 50],
+        popupAnchor: [0, -50],
+    });
+
+    document.getElementById('submit-role').addEventListener('click', () => {
+        const role = document.getElementById('role').value;
+        const patientKey = document.getElementById('patient-key').value.trim();
+
+        if (!role || !patientKey) {
+            alert('Please select a role and enter the patient key.');
+            return;
+        }
+
+        if (role === 'patient') {
+            // Patient tracking logic
+            function updateLocation(position) {
+                const { latitude, longitude } = position.coords;
+                const altitude = position.coords.altitude || 0;
+                const coords = [latitude, longitude];
+
+                // Send location to backend
+                fetch('/api/location/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    },
+                    body: JSON.stringify({
+                        patient_key: patientKey,
+                        latitude: latitude,
+                        longitude: longitude,
+                        altitude: altitude
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Location sent:', data))
+                .catch(error => console.error('Error:', error));
+
+                // Update map
+                if (!marker) {
+                    marker = L.marker(coords, { icon: customIcon, riseOnHover: true }).addTo(map);
+                    map.setView(coords, 15);
+                } else {
+                    marker.setLatLng(coords);
+                }
+                
+                marker.bindPopup("Live Location").openPopup();
+                
+                // Update coordinates display
+                document.getElementById('coordinates').textContent = 
+                    `Latitude: ${latitude.toFixed(6)}, Longitude: ${longitude.toFixed(6)}, Altitude: ${altitude}`;
+
+                // Hover effect
+                marker.on('mouseover', function () {
+                    this.setIcon(
+                        L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                            iconSize: [60, 60],
+                            iconAnchor: [30, 60],
+                        })
+                    );
+                });
+
+                marker.on('mouseout', function () {
+                    this.setIcon(customIcon);
+                });
+            }
+
+            function handleError(error) {
+                document.getElementById('coordinates').textContent = `Error: ${error.message}`;
+            }
+
+            if (navigator.geolocation) {
+                // Watch position and update periodically
+                navigator.geolocation.watchPosition(updateLocation, handleError, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                document.getElementById('coordinates').textContent = 'Geolocation is not supported';
+            }
+        } 
+        else if (role === 'caretaker') {
+            // Caretaker tracking logic
+            function fetchPatientLocation() {
+                fetch(`/api/location/?patient_key=${patientKey}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const coords = [data.latitude, data.longitude];
+
+                        // Update map
+                        if (!marker) {
+                            marker = L.marker(coords, { icon: customIcon, riseOnHover: true }).addTo(map);
+                            map.setView(coords, 15);
+                        } else {
+                            marker.setLatLng(coords);
+                        }
+                        
+                        marker.bindPopup("Patient Location").openPopup();
+                        
+                        // Update coordinates display
+                        document.getElementById('coordinates').textContent = 
+                            `Latitude: ${data.latitude.toFixed(6)}, Longitude: ${data.longitude.toFixed(6)}, Altitude: ${data.altitude || 0}`;
+
+                        // Hover effect
+                        marker.on('mouseover', function () {
+                            this.setIcon(
+                                L.icon({
+                                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                                    iconSize: [60, 60],
+                                    iconAnchor: [30, 60],
+                                })
+                            );
+                        });
+
+                        marker.on('mouseout', function () {
+                            this.setIcon(customIcon);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('coordinates').textContent = 'Error fetching location';
+                    });
+            }
+
+            // Fetch location immediately and then every 30 seconds
+            fetchPatientLocation();
+            setInterval(fetchPatientLocation, 30000);
+        }
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{%block css%} 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/design.css' %}" >
+{%endblock%}
+{% block content %}
+<div class="map-grid">
+    <div class="map-1">
+        <h1>Patient Location</h1>
+        {% if form.errors %}
+            <div class="error-message">
+                {% for error in form.errors.values %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Get Location</button>
+        </form>
+    </div>
+    <div class="map-2">
+        <div id="map"></div>
+        <div id="coordinates">
+            {% if latitude and longitude %}
+                Latitude: {{ latitude }}, Longitude: {{ longitude }}
+            {% else %}
+                Waiting for location...
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <script>
+        const map = L.map('map').setView([{{ latitude|default:0 }}, {{ longitude|default:0 }}], {% if latitude and longitude %}15{% else %}2{% endif %});
+        let marker;
+        
+        L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+            maxZoom: 20,
+        }).addTo(map);
+
+        {% if latitude and longitude %}
+            const customIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', 
+                iconSize: [50, 50],
+                iconAnchor: [25, 50],
+                popupAnchor: [0, -50],
+            });
+
+            const coords = [{{ latitude }}, {{ longitude }}];
+            marker = L.marker(coords, { icon: customIcon, riseOnHover: true }).addTo(map);
+            marker.bindPopup("Patient Location").openPopup();
+
+            // Hover effect
+            marker.on('mouseover', function () {
+                this.setIcon(
+                    L.icon({
+                        iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', 
+                        iconSize: [60, 60],
+                        iconAnchor: [30, 60],
+                    })
+                );
+            });
+
+            marker.on('mouseout', function () {
+                this.setIcon(customIcon);
+            });
+        {% endif %}
+    </script>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{%block css%} 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/design.css' %}" >
+
+{%endblock%}
+{% block content %}
+<div class="map-grid">
+    <div class="map-1">
+        <h1>i will be putting some dynamic content here</h1>
+    </div>
+    <div class="map-2">
+<div id="map"></div>
+    <div id="coordinates">Waiting for location...</div>
+    </div>
+</div>
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+        let marker;
+        
+        L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+            maxZoom: 20,
+        }).addTo(map);
+        const customIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Replace with your icon URL
+            iconSize: [50, 50], // Size of the icon [width, height]
+            iconAnchor: [25, 50], // Point of the icon which will correspond to marker's location [x, y]
+            popupAnchor: [0, -50], // Point where the popup opens relative to the iconAnchor
+          });
+    
+    
+                if (!marker) {
+                    marker = L.marker(coords, { icon: customIcon, riseOnHover: true }).addTo(map);
+                    //marker = L.marker(coords).addTo(map);
+                    map.setView(coords, 15);
+                } else {
+                    marker.setLatLng(coords);
+                }
+                
+                marker.bindPopup("Live Location").openPopup();
+                $('#coordinates').text(`Latitude: ${latitude.toFixed(6)}, Longitude: ${longitude.toFixed(6)}, Altitude: ${altitude}`);
+
+
+                marker.on('mouseover', function () {
+                    this.setIcon(
+                      L.icon({
+                        iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Same icon but larger
+                        iconSize: [60, 60], // Larger size on hover
+                        iconAnchor: [30, 60],
+                      })
+                    );
+                  });
+            
+                  marker.on('mouseout', function () {
+                    this.setIcon(customIcon); // Revert to original size
+                  }); {% endcomment %}

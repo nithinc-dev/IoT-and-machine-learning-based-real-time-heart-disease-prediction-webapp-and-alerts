@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block css%}
+<link rel="stylesheet" href="{% static 'css/table.css' %}" >
+{%endblock%}
+
+{% block content %}
+<div class="ecg-table-container">
+    <table class="ecg-table">
+        <thead>
+            <tr>
+                <th>SL</td>
+                <th>ECG</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for ecg in ecgs%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{ecg.ecg_data}}</td>
+                {% comment %} <td>{{ecg.timestamp}}</td> {% endcomment %}
+                {% comment %} <td>{{ecg.timestamp|date:"d M Y h:i:s.u A"}}</td> {% endcomment %}
+                <td>{{ecg.timestamp|date:"d-M-Y H:i:s.u"}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{%block css%} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}" >
+{%endblock%}
+{% block content %}
+<div class="ecg-table" >
+    
+    <table>
+        <thead>
+        <tr>
+            {% comment %} <th>Name</th> {% endcomment %}
+            {% comment %} <th>ECG</th>
+            <th>timestamp</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        {%for ecg in ecgs%}
+    <tr>
+        {% comment %} <td>{{ecg.patient.name}}</td> {% endcomment %}
+        {% comment %} <td>{{ecg.ecg_data}}</td>
+        <td>{{ecg.timestamp}}</td>
+    </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock %} {% endcomment %} 

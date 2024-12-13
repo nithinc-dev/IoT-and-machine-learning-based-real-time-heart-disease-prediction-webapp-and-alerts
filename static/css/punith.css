@@ -1,0 +1,234 @@
+/* Basic carousel functionality */
+.carousel {
+    height: 600px; 
+    perspective: 250px;
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform-origin: 0% 50%;
+}
+
+.carousel .carousel-item {
+    width: 450px;
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    padding: 50px;
+    height: auto;
+    text-align: center;
+    border-radius: 15px;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.social-dotss {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.dott {
+    width: 8px;
+    height: 8px;
+    background-color: #3498db;
+    border-radius: 50%;
+}
+.social-dotss {
+    position: relative;
+    z-index: 4;
+}
+
+
+/* Your original styling */
+.img-area {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 50%;
+    border: inset 8px deepskyblue;
+    
+}
+
+.img-area img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.testi p {
+    color: #262626;
+    font-size: 18px;
+    line-height: 1.9;
+}
+
+.testi h4 {
+    font-size: 20px;
+    margin: 0;
+    color: #000;
+}
+
+.testi h5 {
+    font-size: 14px;
+    letter-spacing: 5px;
+    margin: 7px 0;
+}
+
+/* Additional required Materialize carousel functionality */
+.carousel.carousel-slider {
+    top: 0;
+    left: 0;
+}
+
+.carousel.carousel-slider .carousel-item {
+    min-height: auto;
+}
+
+.carousel .indicators {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+}
+
+.carousel .indicators .indicator-item {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    height: 8px;
+    width: 8px;
+    margin: 24px 4px;
+    background-color: rgba(255,255,255,0.5);
+    transition: background-color .3s;
+    border-radius: 50%;
+}
+
+.carousel .indicators .indicator-item.active {
+    background-color: #fff;
+}
+
+
+
+/* Existing styles remain the same, adding media queries below */
+
+/* Responsive Design for Smartphones */
+@media screen and (max-width: 600px) {
+    .carousel {
+        height: 400px; /* Reduced height for smaller screens */
+        perspective: 150px; /* Reduced perspective */
+    }
+
+    .carousel .carousel-item {
+        width: 90%; /* Take up most of the screen width */
+        max-width: 350px; /* Prevent items from becoming too wide */
+        padding: 20px; /* Reduced padding */
+        margin: 0 auto; /* Center the carousel items */
+    }
+
+    .img-area {
+        width: 80px; /* Slightly smaller image area */
+        height: 80px;
+        border-width: 5px; /* Thinner border */
+    }
+
+    .testi p {
+        font-size: 16px; /* Slightly smaller text */
+        line-height: 1.6;
+    }
+
+    .testi h4 {
+        font-size: 18px;
+    }
+
+    .testi h5 {
+        font-size: 12px;
+        letter-spacing: 3px;
+    }
+
+    .carousel .indicators {
+        bottom: -30px; /* Adjust indicator position */
+    }
+
+    .carousel .indicators .indicator-item {
+        height: 6px;
+        width: 6px;
+        margin: 15px 3px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 350px) {
+    .carousel {
+        height: 350px;
+    }
+
+    .carousel .carousel-item {
+        width: 95%;
+        max-width: 300px;
+        padding: 15px;
+    }
+
+    .img-area {
+        width: 70px;
+        height: 70px;
+    }
+
+    .testi p {
+        font-size: 14px;
+    }
+
+    .testi h4 {
+        font-size: 16px;
+    }
+
+    .testi h5 {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+}
+  
+
+
+
+
+
+/* .carousel{
+    height: 600px; 
+    perspective: 250px;    
+    
+}
+.carousel .carousel-item {
+    width: 450px;
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    padding: 50px;
+    height: auto;
+    text-align: center;
+    border-radius: 15px;
+}
+.img-area {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 50%;
+    border: inset 8px deepskyblue;
+}
+ .img-area img{
+    width: 100%;
+}
+.testi p {
+    color: #262626;
+    font-size: 18px;
+    line-height: 1.9;
+}
+        .testi h4 {
+    font-size: 20px;
+    margin: 0;
+    color: #000;
+}
+        .testi h5 {
+    font-size: 14px;
+    letter-spacing: 5px;
+    margin: 7px 0;
+}         */

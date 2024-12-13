@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Code by : www.codeinfoweb.com -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Heart Dashboard</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+      body {
+        font-family: "Itim", cursive;
+      }
+
+      #ecgSlider {
+      width: 100%;
+      margin-top: 20px;
+      height: 8px;
+      background: #4b5563;
+      border-radius: 8px;
+    }
+    #ecgSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      background: #14b8a6;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-100 overflow-x-clip">
+    <!-- Header Section -->
+    <header class="p-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <button
+          id="menuButton"
+          class="text-gray-100 text-3xl lg:hidden hover:text-gray-400"
+          aria-label="Open Menu"
+        >
+          <i class="bx bx-menu"></i>
+        </button>
+        <div class="flex items-center gap-2 text-teal-400 cursor-pointer">
+          <i class="bx bx-heart text-3xl"></i>
+          <span class="text-xl font-semibold">Heart</span>
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        <div class="relative hidden lg:flex w-[500px]">
+          <input
+            type="text"
+            placeholder="Search..."
+            class="w-full py-2 pl-10 pr-4 bg-gray-800 border border-gray-600 rounded-md text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <i
+            class="bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          ></i>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-gray-300 font-medium">UserName</span>
+        <img
+          src="image2.jpg"
+          alt="User Avatar"
+          class="w-10 h-10 rounded-full border border-gray-600"
+        />
+      </div>
+    </header>
+
+    <div class="flex p-3 gap-4">
+      <!-- Sidebar Section -->
+      <aside
+        id="sidebar"
+        class="w-42 hidden lg:block rounded-lg bg-gray-800 p-2 py-5 fixed lg:relative lg:translate-x-0 transform -translate-x-full transition-transform duration-200 ease-in-out"
+      >
+        <nav class="space-y-4">
+          <a
+            href="#"
+            class="flex items-center space-x-3 text-gray-300 hover:bg-gray-700 p-3 rounded-md"
+          >
+            <i class="bx bx-home-alt text-teal-400"></i>
+            <span>Dashboard</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 text-gray-300 hover:bg-gray-700 p-3 rounded-md"
+          >
+            <i class="bx bx-line-chart text-teal-400"></i>
+            <span>Report</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 text-gray-300 hover:bg-gray-700 p-3 rounded-md"
+          >
+            <i class="bx bx-wallet text-teal-400"></i>
+            <span>Notification</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 text-gray-300 hover:bg-gray-700 p-3 rounded-md"
+          >
+            <i class="bx bx-user text-teal-400"></i>
+            <span>Profile</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 text-gray-300 hover:bg-gray-700 p-3 rounded-md"
+          >
+            <i class="bx bx-cog text-teal-400"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main
+        class="flex-1 bg-gray-900 flex gap-4 flex-col lg:flex-row ml-0 lg:ml-42"
+      >
+        <section
+          class="w-full lg:flex-1 p-4 space-y-6 bg-gray-800 flex flex-col rounded-lg"
+        >
+          <div class="bg-gray-700 p-5 rounded-md">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <i class="bx bx-trending-up text-teal-400 text-2xl"></i>
+                <h2 class="text-lg font-semibold text-gray-100">
+                  ECG Graph
+                </h2>
+              </div>
+              <span class="text-xl font-bold text-green-400">Normal</span>
+            </div>
+            <canvas id="ecgChart" class="w-full"></canvas>
+            <div class="flex justify-center items-center">
+            <input
+            id="ecgSlider"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            class="w-full max-w-4xl h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-teal-500"
+          /></div>
+          </div>
+
+          <div class="flex gap-4 flex-col md:flex-row">
+            <div
+              class="bg-gray-700 p-5 flex-1 rounded-md flex items-center justify-between"
+            >
+              <div
+                class="flex md:items-center gap-2 flex-col lg:flex-row items-start"
+              >
+                <i class="bx bx-heart-circle text-teal-400 text-2xl"></i>
+                <h2 class="text-sm md:text-lg font-semibold text-gray-100">
+                  Average BPM
+                </h2>
+              </div>
+              <div
+                class="text-xl font-bold text-gray-100 flex flex-col items-end lg:flex-row lg:items-center gap-2"
+              >
+                <span class="text-sm lg:text-lg">75</span>
+                <span class="text-green-400 text-sm">Normal</span>
+              </div>
+            </div>
+
+            <div
+              class="bg-gray-700 p-4 md:p-5 flex-1 rounded-md flex items-center justify-between"
+            >
+              <div
+                class="flex md:items-center gap-2 flex-col lg:flex-row items-start"
+              >
+                <i class="bx bx-heart text-teal-400 text-2xl"></i>
+                <h2 class="text-sm md:text-lg font-semibold text-gray-100">
+                    BPM
+                </h2>
+              </div>
+              <div
+                class="text-xl font-bold text-gray-100 flex flex-col items-end lg:flex-row lg:items-center gap-2"
+              >
+                <span class="text-sm lg:text-lg">85</span>
+                <span class="text-green-400 text-sm">Normal</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="w-full lg:w-[300px] p-4 flex flex-col justify-evenly gap-4 bg-gray-800 rounded-lg"
+        >
+
+          <div class="bg-gray-700 p-5 rounded-md overflow-hidden">
+            <div class="flex items-center justify-between mb-4">
+              <i class="bx bx-heart-circle  text-teal-400 text-2xl"></i>
+              <h2 class="text-lg font-semibold text-gray-100">Heart Rate Zones</h2>
+            </div>
+            <div class="flex justify-center px-10 overflow-hidden">
+              <canvas
+                id="availableBalanceChart"
+                class="w-20 md:w-32 lg:w-40"
+              ></canvas>
+            </div>
+          </div>
+
+          <div class="bg-gray-700 p-5 rounded-md overflow-hidden">
+            <div class="flex items-center justify-between mb-4">
+              <i class="bx bx-home-heart text-teal-400 text-2xl"></i>
+              <h2 class="text-lg font-semibold text-gray-100">Heart Rhythm Status</h2>
+            </div>
+            <div class="flex justify-center px-10 overflow-hidden">
+              <canvas
+                id="availableBalanceChart1"
+                class="w-20 md:w-32 lg:w-40"
+              ></canvas>
+            </div>
+          </div>
+
+        
+          <div class="bg-gray-700 p-5 rounded-md overflow-hidden">
+            <div class="flex items-center justify-between mb-4">
+              <i class="bx bx-book-heart text-teal-400 text-2xl"></i>
+              <h2 class="text-lg font-semibold text-gray-100">Alert Distribution</h2>
+            </div>
+            <div class="flex justify-center px-10 overflow-hidden">
+              <canvas
+                id="availableBalanceChart2"
+                class="w-20 md:w-32 lg:w-40"
+              ></canvas>
+            </div>
+          </div>
+          
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dash.js">
+        // Toggle sidebar visibility on mobile
+document.getElementById("menuButton").addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("-translate-x-full");
+  
+    // Toggle the 'hidden' class based on the sidebar visibility
+    if (sidebar.classList.contains("-translate-x-full")) {
+      sidebar.classList.add("hidden");
+    } else {
+      sidebar.classList.remove("hidden");
+    }
+  });
+  
+    // ECG Data (Predefined)
+    const ecgData = [
+        0, 1, 0, -1, 0, 0.5, 1, 0.2, -0.2, 0, 0, 2, -2, 4, -2, 2, 0, 0.1, -0.1, 0, 
+        0, 0.5, 0.3, 0.1, 0, 0, -0.2, -0.3, 0, 0, 0.1, 0.2, -0.1, 0, 0.5, -0.5, 0, 0, 
+        0, 1, 0, -1, 0, 0.5, 1, 0.2, -0.2, 0, 0, 2, -2, 4, -2, 2, 0, 0.1, -0.1, 0, 
+        0, 0.5, 0.3, 0.1, 0, 0, -0.2, -0.3, 0, 0, 0.1, 0.2, -0.1, 0, 0.5, -0.5, 0, 0,
+        0, 1, 0, -1, 0, 0.5, 1, 0.2, -0.2, 0, 0, 2, -2, 4, -2, 2, 0, 0.1, -0.1, 0, 
+        0, 0.5, 0.3, 0.1, 0, 0, -0.2, -0.3, 0, 0, 0.1, 0.2, -0.1, 0, 0.5, -0.5, 0, 0,
+        0, 1, 0, -1, 0, 0.5, 1, 0.2, -0.2, 0, 0, 2, -2, 4, -2, 2, 0, 0.1, -0.1, 0, 
+        0, 0.5, 0.3, 0.1, 0, 0, -0.2, -0.3, 0, 0, 0.1, 0.2, -0.1, 0, 0.5, -0.5, 0, 0
+      ];
+  
+      const ecgCtx = document.getElementById("ecgChart").getContext("2d");
+      const ecgChart = new Chart(ecgCtx, {
+        type: "line",
+        data: {
+          labels: Array.from({ length: 50 }, (_, i) => i), // Initial time points
+          datasets: [
+            {
+              label: "ECG Signal",
+              data: ecgData.slice(0, 50), // Initial segment of the ECG signal
+              borderColor: "rgba(20, 184, 166, 1)", // ECG signal color
+              borderWidth: 2,
+              fill: false,
+              tension:0.5,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: { color: "#e5e7eb" },
+            },
+            x: {
+              ticks: { color: "#e5e7eb" },
+              title: {
+                display: true,
+                text: "Time (ms)",
+                color: "#e5e7eb",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#e5e7eb" },
+            },
+            title: {
+              display: true,
+              text: "ECG Signal",
+              color: "#e5e7eb",
+            },
+          },
+        },
+      });
+  
+      // Slider event listener to update the chart
+      const ecgSlider = document.getElementById("ecgSlider");
+      ecgSlider.addEventListener("input", function () {
+        const startIndex = parseInt(ecgSlider.value, 10);
+        const endIndex = startIndex + 50; // Show next 50 data points
+        ecgChart.data.labels = Array.from({ length: 50 }, (_, i) => startIndex + i);
+        ecgChart.data.datasets[0].data = ecgData.slice(startIndex, endIndex);
+        ecgChart.update();
+      });
+
+
+  
+  
+// Heart Rate Zones Pie Chart
+const heartRateZonesCtx = document
+  .getElementById("availableBalanceChart")
+  .getContext("2d");
+new Chart(heartRateZonesCtx, {
+  type: "pie",
+  data: {
+    labels: ["Resting Zone", "Moderate Zone", "Intense Zone", "Peak Zone"],
+    datasets: [
+      {
+        data: [40, 35, 20, 5], // Example values in percentages
+        backgroundColor: ["#1f2937", "#14b8a6", "#facc15", "#ef4444"], // Color for each zone
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: "#e5e7eb" } },
+    },
+  },
+});
+
+// Heart Rhythm Status Pie Chart
+const heartRhythmStatusCtx = document
+  .getElementById("availableBalanceChart1")
+  .getContext("2d");
+new Chart(heartRhythmStatusCtx, {
+  type: "pie",
+  data: {
+    labels: ["Normal Rhythm", "Bradycardia", "Tachycardia", "Arrhythmia"],
+    datasets: [
+      {
+        data: [85, 10, 3, 2], // Example values in percentages
+        backgroundColor: ["#14b8a6", "#3b82f6", "#f97316", "#ef4444"], // Colors for each rhythm type
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: "#e5e7eb" } },
+    },
+  },
+});
+
+// Alert Distribution Pie Chart
+const alertDistributionCtx = document
+  .getElementById("availableBalanceChart2")
+  .getContext("2d");
+new Chart(alertDistributionCtx, {
+  type: "pie",
+  data: {
+    labels: ["Normal", "Low HR Alerts", "High HR Alerts", "Arrhythmia Alerts"],
+    datasets: [
+      {
+        data: [70, 15, 10, 5], // Example values in percentages
+        backgroundColor: ["#14b8a6", "#facc15", "#f97316", "#ef4444"], // Colors for each alert type
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: "#e5e7eb" } },
+    },
+  },
+});
+    </script>
+  </body>
+</html>

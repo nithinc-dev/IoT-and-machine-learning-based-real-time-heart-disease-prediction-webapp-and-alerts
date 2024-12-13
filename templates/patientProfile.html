@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% comment %} <div class="patient-profile" style="width: 50%; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #505050; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);"> {% endcomment %}
+<div class="patient-profile" >
+    <img src="{{patient.profile_picture.url}}">
+    <h2>Patient Details</h2>
+    <h4>Name: {{ patient.name }}</h4>
+    <h4>age: {{ patient.age }}</h4>
+    <h4>gender: {{patient.gender}}</h4>
+    <h4>doctor: {{patient.doctor.name}}</h4>
+
+    
+    
+    <h4>Diseases:</h4>
+    <ul>
+        {% for d in patient.diseases.all %}
+            <li>{{ d.name }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

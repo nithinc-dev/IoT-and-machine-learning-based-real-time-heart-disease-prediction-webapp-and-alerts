@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="width: 50%; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #505050; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+<h2>All Patients</h2>
+<ul>
+    {% for patient in patients %}
+        <li>
+            <a href="{% url 'single_patient_profile' patient.pk %}">{{ patient.name }} | age:{{ patient.age }} | {{patient.pk}}</a>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

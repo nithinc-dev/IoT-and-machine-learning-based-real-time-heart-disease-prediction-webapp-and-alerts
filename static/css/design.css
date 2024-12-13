@@ -1,0 +1,1004 @@
+body {
+    background-color: #c2d9dc;
+    color: #eae3db;
+    font-family: sans-serif;
+    position: relative;
+    margin: 0;
+}
+
+.main-header {
+    background-color: #406074 !important;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-header h4 {
+    margin: 0;
+    font-size: 1.2em;
+}
+.main-header .newNav {
+    margin: 0;
+    
+}
+
+.newNav {
+    margin: 0;
+    font-size: 18px;
+}
+
+a:link {
+    color: #eae3db;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #eae3db;
+}
+
+a:hover {
+    color: #1098ad;
+    font-weight: bold;
+    text-decoration: underline #1098ad;
+}
+
+a:active {
+    background: linear-gradient(45deg, #d8cfc5, #8aa8ad);
+border-radius: 8px;
+    padding: 8px 8px;
+    font-style: italic;
+}
+
+.newNav a:link {
+    margin-right: 30px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.newNav a:last-child {
+    margin-right: 0;
+    color: #29536c;
+    background-color: #eae3db;
+    padding: 6px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #406074;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding-top: 60px;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-content {
+    padding: 20px;
+}
+
+.sidebar h3 {
+    color: #eae3db;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    color: #eae3db;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: #eae3db;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-toggle:hover {
+    color: #1098ad;
+}
+
+.svg-sidebar {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
+}
+
+h1 {
+    margin-bottom: 32px;
+    font-size: 44px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    /* 44 / 52 / 62 */
+  
+    /* text-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); */
+  }
+  
+h2{
+    margin-top: 0;
+    font-size: 40px;
+}
+
+
+
+.home-grid{
+    display:grid;
+    /* gap:20px; */
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 30px;
+    
+}
+/* #505050
+#6e899c 
+#2f4f4f*/
+.home-grid-item-1{
+    color: #2f4f4f;
+    margin-left: 70px;
+    margin-bottom: 0;
+}
+
+.home-grid-item-2{
+    color: #2f4f4f;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap:0;
+    margin-bottom: 0;
+    
+}
+.withingrid2-1{
+gap:1px;
+margin-bottom: 0;
+margin-top:25px;
+}
+.withingrid2-24{
+    margin-top: 70px;
+    grid-column: 2/3;
+    grid-row: 1/3;
+    margin-bottom: 0;
+}
+
+.withingrid2-3{
+    align-self: start;
+    margin-top:0;
+    margin-bottom: 0;
+}
+
+
+
+
+.btns-home {
+    display: flex;
+    gap: 20px; /* Adds space between buttons */
+    align-items: center; /* Vertically centers buttons */
+}
+
+
+.btns-home a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: #406074;
+    /* background: linear-gradient(45deg,
+        #ff69b4,
+        #ff1493,
+        #ff00ff,
+        #8a2be2,
+        #4b0082
+    ); */
+    color: #eae3db;
+    transition: transform 0.3s ease;
+}
+
+.btns-home a:hover {
+    transform: scale(1.05); /* Optional: adds a slight zoom effect on hover */
+}
+/* .btns-home a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    color: #FFFFFF;
+    transition: transform 0.3s ease;
+    }
+    .btns-home a:hover {
+    transform: scale(1.05);
+    } */
+
+
+
+
+
+
+
+.icons-container {
+    /* display: grid; it will look nice if this is there*/
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    background-color: #eae3db;
+    font-family: sans-serif;
+}
+
+.grid-item {
+     display: flex; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    border: 2px solid #e0e0e0; /* Added border to separate grid items */
+    border-radius: 15px; /* Optional: adds rounded corners to the border */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.grid-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow on hover */
+    transform: translateY(-5px); /* Optional: slight lift effect on hover */
+}
+
+.icon-wrapper {
+    width: 150px; /* Increased from 100px */
+    height: 150px; /* Increased from 100px */
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    padding: 10px; /* Slightly increased padding */
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.grid-icon {
+    width: 120%; /* Enlarged icon */
+    height: 120%; /* Enlarged icon */
+    object-fit: contain; /* Ensures icon maintains its aspect ratio */
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 10px; /* Reduced padding */
+    box-sizing: border-box;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .icons-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .icons-container {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-item {
+        padding: 15px; /* Slightly reduced padding for mobile */
+    }
+
+    .icon-wrapper {
+        width: 120px; /* Smaller size on mobile */
+        height: 120px;
+    }
+}
+
+/* Keep other existing styles from the original CSS */
+.icon-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(145deg, #4CAF50, #2196F3);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.grid-icon-heading {
+    color: #2c3e50;
+    margin: 15px 0;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.grid-text {
+    color: #666;
+    line-height: 1.6;
+    margin: 10px 0;
+    font-size: 0.9em;
+}
+
+.social-dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #3498db;
+    border-radius: 50%;
+}
+.social-dotss {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dott {
+    width: 8px;
+    height: 8px;
+    background-color: #3498db;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+/* First and last dots raised to create smile effect */
+/* .dott:first-child,
+.dott:last-child {
+    transform: translateY(-13px);
+} */
+.dott:nth-child(1) { transform: translate(-3px, -16px); }
+.dott:nth-child(2) { transform: translate(-1px, -3px); }
+.dott:nth-child(4) { transform: translate(1px, -3px); }
+.dott:nth-child(5) { transform: translate(3px, -16px); }
+
+
+
+
+
+/* Small cross icons */
+.grid-item::before,
+.grid-item::after {
+    content: '+';
+    position: absolute;
+    color: #3498db;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+.grid-item::before {
+    top: 10px;
+    right: 10px;
+}
+
+.grid-item::after {
+    bottom: 10px;
+    left: 10px;
+}
+
+
+
+.grid-item {
+    position: relative;
+    border: none; /* Remove previous border */
+    overflow: hidden;
+}
+
+.grid-item::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        #38A2D7,
+        /* #2f4f4f, */
+         #561139, 
+        #38A2D7,
+        /* #2f4f4f, */
+         #561139, 
+        transparent
+    );
+    animation: rotate 4s linear infinite;
+    z-index: 1;
+}
+
+.grid-item::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: white;
+    z-index: 2;
+    border-radius: 15px;
+}
+
+.grid-item .icon-wrapper {
+    z-index: 3;
+    position: relative;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hover effect for extra spice */
+.grid-item:hover::before {
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        #ff6b6b,
+        #4ecdc4,
+        #ff6b6b,
+        #4ecdc4,
+        transparent
+    );
+    animation: rotate 2s linear infinite;
+}
+
+/* Ensure content stays on top */
+.grid-icon-heading,
+.grid-text,
+.social-dots {
+    position: relative;
+    z-index: 4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.grid-item {
+    display: flex; 
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   padding: 20px;
+   position: relative;
+   border: 2px solid #e0e0e0; /* Added border to separate grid items */
+   border-radius: 15px; /* Optional: adds rounded corners to the border */
+   transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+
+
+
+
+.patient-profile{
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    width:40%;
+    align-items: center;
+   text-align: center;
+   border-radius: 30px;
+   margin-left:400px;
+    
+
+}
+.patient-profile img{
+
+
+
+    
+    
+    width: 20%; /* Enlarged icon */
+    height: 20%; /* Enlarged icon */
+    object-fit: contain; /* Ensures icon maintains its aspect ratio */
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    padding: 10px; /* Reduced padding */
+    box-sizing: border-box;
+}
+
+.patient-profile:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow on hover */
+    transform: translateY(-5px); /* Optional: slight lift effect on hover */
+ }
+
+
+
+
+
+.map-grid{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:0;
+}
+.map-1{
+    border: 2px solid #e0e0e0; /* Added border to separate grid items */
+    border-radius: 15px; /* Optional: adds rounded corners to the border */
+    background-color: #303020;
+    color:#4CAF50;
+    border: 2px solid green;
+    border-left: 9px solid green;
+   
+}
+.map-2{
+    grid-column: 2/5;
+}
+/* Form Styling to Match Existing Theme */
+#role-form {
+    background-color: #303020;
+    color: #4CAF50;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    /* border-left: 12px solid green; */
+    border: 3px solid green;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    margin-left: 5px;
+    margin-right: 7px;
+    display: flex;
+    flex-direction: column;
+}
+
+#role-form label {
+    color: #4CAF50;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#role-form select,
+#role-form input {
+    background-color: #404030;
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+}
+
+#role-form select:focus,
+#role-form input:focus {
+    border-color: #81c784;
+    /* box-shadow: 0 0 5px rgba(129, 199, 132, 0.5); */
+    box-shadow: 0 0 15px green;
+}
+
+#role-form select option {
+    background-color: #404030;
+    color: #4CAF50;
+}
+
+#role-form button {
+    background-color: #4CAF50;
+    color: #303020;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#role-form button:hover {
+    background-color: #81c784;
+}
+
+#role-form button:active {
+    background-color: #388e3c;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    #role-form {
+        width: 90%;
+        max-width: 100%;
+        margin: 10px;
+        padding: 15px;
+    }
+}
+
+
+
+
+
+#map { height: 100vh; width: 100%; }
+        #coordinates {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .popup{
+            border-left: 10px solid green;
+            background-color: #404040;
+        }
+
+/* /punith //////////////////////////////////////////////////////*/
+        
+
+/* /punith //////////////////////////////////////////////////////*/
+.media-emoji-2{
+    display:inline;
+    /* width:20%;
+    height:20%; */
+    margin-left: 0;
+    
+    
+}
+
+@media(min-width:500px) , (orientation:landscape){
+    .media-emoji{
+        display:none;
+    }
+    /* .icons-container{
+        display:none;
+    } */
+    
+}
+
+@media(max-width:501px), (orientation:potrait) {
+
+    /* .media-heading{
+        font-size: 20px;
+    } */
+    /* .icons-container{
+        grid-auto-flow: row;
+    } */
+    .home-grid-item-2{
+        display:none;
+    }
+    .home-grid-item-1{
+        grid-column: 1/3;
+    }
+    nav .m{
+        display:none;
+    }
+}
+
+
+
+
+/* messages.css */
+.messages {
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    font-weight: 500;
+    border-radius: 25px;
+    font-size: 20px;
+    padding: 20px;
+    position: relative;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exit-message {
+    display: inline;
+    color: red;
+    cursor: pointer;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.hidden {
+    display: none;
+}
+/* .messages-exit{
+    display:none;
+}
+.messages{
+    background: linear-gradient(45deg, #6C63FF, #9B59B6, #E74C3C);
+    font-weight: 500;
+    border-radius: 25px;
+    font-size:20px;
+    padding: 20px;
+}
+.exit-message{
+    display : inline;
+    color:red;
+} */
+
+
+
+
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 55%;
+    background-color: white;
+    padding: 6rem;
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.modal-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    position: relative;
+}
+
+.form-section {
+    padding: 1rem;
+}
+
+.form-section h2 {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input, .form-section p input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Style Django form paragraphs */
+.form-section p {
+    margin-bottom: 1rem;
+}
+
+.form-section p label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #6C63FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #5651d6;
+}
+
+/* Add a divider between forms */
+.modal-container::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    height: 80%;
+    width: 1px;
+    background-color: #ddd;
+    transform: translateX(-50%);
+}
+
+/* Make it responsive */
+@media (max-width: 768px) {
+    .modal {
+        width: 90%;
+        padding: 3rem;
+    }
+    
+    .modal-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-container::after {
+        display: none;
+    }
+}
+
+
+
+
+    /* display:grid; 
+    grid-template-columns: repeat(2, 1fr);;
+}
+.inside-loginGrid-1{
+
+}
+.inside-loginGrid-2{
+    
+} */
+/* .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;  
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+} */
+.overlay {
+    position: fixed;  /* Change from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 999;  /* Increase z-index */
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    font-size: 5rem;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+
+
+.modal h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #6C63FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.login-btn:hover {
+    background-color: #5651d6;
+}
+
+.signup-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.signup-text a {
+    color: #6C63FF;
+    text-decoration: none;
+}
+
+.signup-text a:hover {
+    text-decoration: underline;
+}
+
+/* 
+
+.close-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    font-size: 5rem;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  
+  
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+  
+    background-color: white;
+    padding: 6rem;
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 5;
+  }
+   */
