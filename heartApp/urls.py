@@ -34,5 +34,7 @@ urlpatterns = [
     path('ecgcsv/<int:pk>', views.ecgcsv),
     
     path('s', views.success),
+    
+    path('ml/<int:pk>', views.ml_ecg_analysis),
 
 ]
